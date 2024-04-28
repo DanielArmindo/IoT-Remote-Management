@@ -1,7 +1,8 @@
 # Disclaimer
 
 This project was carried out as part of the Internet Technologies course in Computer Engineering at the Polytechnic Institute of Leiria.
-Any information provided within this project is fictitious.
+
+**Any information provided within this project is fictitious.**
 
 # About This Project
 
