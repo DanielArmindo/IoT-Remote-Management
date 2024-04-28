@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Sensor;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class SensorSeeder extends Seeder
 {
@@ -33,8 +34,7 @@ class SensorSeeder extends Seeder
                 'nome' => 'luz_rececao',
                 'valor' => 2,
                 'data_hora' => '2024/04/21 4:20:20',
-                'log' => '2022/06/11 4:03:32;0|
-                2024/04/21 4:02:20;2|',
+                'log' => '2022/06/11 4:03:32;0|2024/04/21 4:02:20;2|',
             ],
             [
                 'nome' => 'sensor_movimento',
@@ -203,6 +203,10 @@ class SensorSeeder extends Seeder
                 'valor' => 0,
             ],
         ];
+
+        if (!Storage::exists('public/pictures')) {
+            Storage::makeDirectory('public/pictures');
+        }
 
         foreach ($array as $value) {
             Sensor::create($value);

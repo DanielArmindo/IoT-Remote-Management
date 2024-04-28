@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Produto;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProductSeeder extends Seeder
 {
@@ -13,6 +15,9 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
+        $pathPhotos = database_path('seeders/products');
+        $destinationPhotos = 'public/products';
+
         $array = [
             [
                 'cod_produto' => 1,
@@ -57,8 +62,17 @@ class ProductSeeder extends Seeder
             ],
         ];
 
+        if (!Storage::exists($destinationPhotos)) {
+            Storage::makeDirectory($destinationPhotos);
+        }
+
         foreach ($array as $value) {
             Produto::create($value);
+            $this->command->info($pathPhotos."/".$value['img']);
+            $this->command->info($destinationPhotos."/".$value['img']);
+            $path = Storage::path($destinationPhotos."/".$value['img']);
+
+            File::copy($pathPhotos."/".$value['img'],$path);
         }
     }
 }

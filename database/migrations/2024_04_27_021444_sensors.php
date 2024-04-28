@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 return new class extends Migration
 {
@@ -42,6 +43,17 @@ return new class extends Migration
             $table->double('preco');
             $table->string('estado', 15);
         });
+
+        //Delete products and pictures folders from storage
+        $destinationPath = 'public/products';
+        $destinationPath02 = 'public/pictures';
+        if (Storage::exists($destinationPath)) {
+            Storage::deleteDirectory($destinationPath);
+        }
+
+        if (Storage::exists($destinationPath02)) {
+            Storage::deleteDirectory($destinationPath02);
+        }
     }
 
     /**
@@ -52,5 +64,16 @@ return new class extends Migration
         Schema::dropIfExists('sensores');
         Schema::dropIfExists('vendas');
         Schema::dropIfExists('produto');
+
+        //Delete products and pictures folders from storage
+        $destinationPath = 'public/products';
+        $destinationPath02 = 'public/pictures';
+        if (Storage::exists($destinationPath)) {
+            Storage::deleteDirectory($destinationPath);
+        }
+
+        if (Storage::exists($destinationPath02)) {
+            Storage::deleteDirectory($destinationPath02);
+        }
     }
 };
