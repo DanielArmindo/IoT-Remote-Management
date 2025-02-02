@@ -354,50 +354,43 @@
                                     <div class="text-center mb-4">
                                         <img src="{{ asset('images/mapa_site.png') }}" alt="" class="img-fluid">
                                     </div>
-                                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    <div class="accordion">
                                             <div class="accordion-item">
-                                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button" type="button">
                                                         <b>História Empresa</b>
-                                                    </button>
                                                 </h2>
-                                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                                    <div class="accordion-body">
-                                                        <strong>Waypoint Business</strong> nasceu por volta dos anos 90, com 2 sócios que na altura estudavam
-                                                        marketing. O objetivo da empresa era fornecer pequenas encomendas nas lojas físicas, porém com o grande
-                                                        avanço das páginas web possibilitou o alcance por Portugal Continental
-                                                        tendo 2 sedes em Portugal que são elas <strong>Leiria e Vila Real</strong>.<br>Agora a empresa foca-se
-                                                        em encomendas online e as sedes são maioritariamente armazens.
-                                                    </div>
+                                                <div class="accordion-body">
+                                                    <strong>Waypoint Business</strong> nasceu por volta dos anos 90, com 2 sócios que na altura estudavam
+                                                    marketing. O objetivo da empresa era fornecer pequenas encomendas nas lojas físicas, porém com o grande
+                                                    avanço das páginas web possibilitou o alcance por Portugal Continental
+                                                    tendo 2 sedes em Portugal que são elas <strong>Leiria e Vila Real</strong>.<br>Agora a empresa foca-se
+                                                    em encomendas online e as sedes são maioritariamente armazens.
                                                 </div>
                                             </div>
                                             <div class="accordion-item">
-                                                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button" type="button">
                                                         <b>Fornecedores</b>
                                                     </button>
                                                 </h2>
-                                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                                                    <div class="accordion-body">
-                                                        A Waypoint Business conta com a ajuda de 3 fornecedores que são <strong>WDMI(Distribuição de Material
-                                                            Informático,Lda), Surolec,LDA</strong> e <strong>Hoslab Diagnostica</strong> que fornecem o material à
-                                                        nossa empressa de caráter nacional.
-                                                    </div>
+                                                <div class="accordion-body">
+                                                    A Waypoint Business conta com a ajuda de 3 fornecedores que são <strong>WDMI(Distribuição de Material
+                                                        Informático,Lda), Surolec,LDA</strong> e <strong>Hoslab Diagnostica</strong> que fornecem o material à
+                                                    nossa empressa de caráter nacional.
                                                 </div>
                                             </div>
                                             <div class="accordion-item">
-                                                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button" type="button">
                                                         <b>Informações Adicionais(Real)</b>
                                                     </button>
                                                 </h2>
-                                                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                                                    <div class="accordion-body">
-                                                        Este projeto foi criado pelo aluno no ambito da disciplina de Tecnologias de Informação com o objetivo
-                                                        de demonstrar os conceitos adquiridos em aula.<br>
-                                                        O tema do projeto é virado para o <b>Comercio Inteligente</b> tendo o foco das APIs viradas para os armazens.<br>
-                                                        Daniel Armindo -> 2211004@my.ipleira.pt
-                                                    </div>
+                                                <div class="accordion-body">
+                                                    Este projeto foi criado pelo aluno no ambito da disciplina de Tecnologias de Informação com o objetivo
+                                                    de demonstrar os conceitos adquiridos em aula.<br>
+                                                    O tema do projeto é virado para o <b>Comercio Inteligente</b> tendo o foco das APIs viradas para os armazens.<br>
+                                                    Daniel Armindo
                                                 </div>
                                             </div>
                                         </div>

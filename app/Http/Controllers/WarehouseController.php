@@ -2,55 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\api\SensorController;
 use App\Models\Sensor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class WarehouseController extends Controller
 {
-    private static $url = 'http://server_url/api/';
-
     public function index(Request $request): View
     {
-        $url = WarehouseController::$url;
+        // API Endpoint: api/sensor/data
+        $controllerAPI = new SensorController();
 
-        $temperatura = Http::get($url . 'sensor/data', [
-            'nome' => "temperatura_armazem"
-        ])->json();
+        $temperatura = $controllerAPI->index(new Request(['nome' => 'temperatura_armazem']))->getData(true);
 
-        $humidade = Http::get($url . 'sensor/data', [
-            'nome' => "sensorHumidade_armazem"
-        ])->json();
+        $humidade = $controllerAPI->index(new Request(['nome' => 'sensorHumidade_armazem']))->getData(true);
 
-        $fumo = Http::get($url . 'sensor/data', [
-            'nome' => "sensorFumo_armazem"
-        ])->json();
+        $fumo = $controllerAPI->index(new Request(['nome' => 'sensorFumo_armazem']))->getData(true);
 
-        $luminosidade = Http::get($url . 'sensor/data', [
-            'nome' => "sensorLuz_armazem"
-        ])->json();
+        $luminosidade = $controllerAPI->index(new Request(['nome' => 'sensorLuz_armazem']))->getData(true);
 
-        $nivel_luminosidade = Http::get($url . 'sensor/data', [
-            'nome' => "brilho_led_armazem"
-        ])->json();
+        $nivel_luminosidade = $controllerAPI->index(new Request(['nome' => 'brilho_led_armazem']))->getData(true);
 
-        $porta_descargas = Http::get($url . 'sensor/data', [
-            'nome' => "porta_descargas"
-        ])->json();
+        $porta_descargas = $controllerAPI->index(new Request(['nome' => 'porta_descargas']))->getData(true);
 
-        $porta_funcionarios = Http::get($url . 'sensor/data', [
-            'nome' => "porta_principal"
-        ])->json();
+        $porta_funcionarios = $controllerAPI->index(new Request(['nome' => 'porta_principal']))->getData(true);
 
-        $corrente = Http::get($url . 'sensor/data', [
-            'nome' => "corrente_ups"
-        ])->json();
+        $corrente = $controllerAPI->index(new Request(['nome' => 'corrente_ups']))->getData(true);
 
-        $disclaimer = Http::get($url . 'sensor/data', [
-            'nome' => "disclaimer"
-        ])->json();
+        $disclaimer = $controllerAPI->index(new Request(['nome' => 'disclaimer']))->getData(true);
 
         return view('warehouse', [
             'temperatura' => $temperatura,
@@ -67,37 +48,31 @@ class WarehouseController extends Controller
 
     public function reception(Request $request)
     {
-        $url = WarehouseController::$url;
+        // API Endpoint: api/sensor/data
+        $controllerAPI = new SensorController();
 
-        $temperatura = Http::get($url . 'sensor/data', [
-            'nome' => "temperatura_rececao"
-        ])->json();
+        $temperatura = $controllerAPI->index(new Request(['nome' => 'temperatura_rececao']))->getData(true);
 
-        $luz = Http::get($url . 'sensor/data', [
-            'nome' => "luz_rececao"
-        ])->json();
+        $luz = $controllerAPI->index(new Request(['nome' => 'luz_rececao']))->getData(true);
 
         return view('reception', ['temperatura' => $temperatura, 'luz' => $luz]);
     }
 
     public function bath(Request $request): View
     {
-        $url = WarehouseController::$url;
+        // API Endpoint: api/sensor/data
+        $controllerAPI = new SensorController();
 
-        $movimento = Http::get($url . 'sensor/data', [
-            'nome' => "sensor_movimento"
-        ])->json();
+        $movimento = $controllerAPI->index(new Request(['nome' => 'sensor_movimento']))->getData(true);
 
-        $agua = Http::get($url . 'sensor/data', [
-            'nome' => "nivel_agua"
-        ])->json();
+        $agua = $controllerAPI->index(new Request(['nome' => 'nivel_agua']))->getData(true);
 
         return view('bath', ['movimento' => $movimento, 'agua' => $agua]);
     }
 
     public function history(Request $request, $name)
     {
-        $url = WarehouseController::$url;
+        $controllerAPI = new SensorController();
 
         $available = [
             'temperatura_armazem' => 'Temperatura do Armazem',
@@ -119,21 +94,14 @@ class WarehouseController extends Controller
             return redirect()->route('dashboard');
         }
 
-        $data = Http::get($url . 'sensor/log', [
-            'tabela' => $name
-        ])->body();
+        // API Endpoint: api/sensor/log
+        $data = $controllerAPI->getLog(new Request(['tabela' => $name]));
 
         $data = empty($data) ? '' : explode("|", $data);
 
-
-        $data_chart = Http::get($url . 'chart', [
-            'sensor' => $name
-        ])->json();
-
-        $data_chart_anterior = Http::get($url . 'chart', [
-            'sensor' => $name,
-            'mes_anterior' => 1
-        ])->json();
+        // API Endpoint: api/chart
+        $data_chart = $controllerAPI->getChart(new Request(['sensor' => $name]))->getData(true);
+        $data_chart_anterior = $controllerAPI->getChart(new Request(['sensor' => $name, 'mes_anterior' => 1]))->getData(true);
 
         $array_meses = [
             1 => "Janeiro",
@@ -203,11 +171,10 @@ class WarehouseController extends Controller
 
     public function disclaimer(Request $request)
     {
-        $url = WarehouseController::$url;
+        // API Endpoint: api/sensor/data
+        $controllerAPI = new SensorController();
 
-        $disclaimer = Http::get($url . 'sensor/data', [
-            'nome' => "disclaimer"
-        ])->json();
+        $disclaimer = $controllerAPI->index(new Request(['nome' => 'disclaimer']))->getData(true);
 
         $linhas = explode("\\n", $disclaimer['valor']);
 
@@ -222,11 +189,10 @@ class WarehouseController extends Controller
 
     public function store_disclaimer(Request $request)
     {
-        $url = WarehouseController::$url;
+        $controllerAPI = new SensorController();
 
-        $disclaimer = Http::get($url . 'sensor/data', [
-            'nome' => "disclaimer"
-        ])->json();
+        // API Endpoint: api/sensor/data
+        $disclaimer = $controllerAPI->index(new Request(['nome' => 'disclaimer']))->getData(true);
 
         $linhas = explode("\\n", $disclaimer['valor']);
 
@@ -242,13 +208,10 @@ class WarehouseController extends Controller
             return redirect()->route('warehouse.disclaimer')->with('status', 'Disclaimer Not Updated, values are the same');
         }
 
-        $response = Http::post($url . 'sensor', [
-            'disclaimer' => 1,
-            'linha1' => $request_line01,
-            'linha2' => $request_line02
-        ]);
+        // API Endpoint: api/sensor
+        $response = $controllerAPI->store(new Request(['disclaimer' => 1, 'linha1' => $request_line01, 'linha2' => $request_line02]));
 
-        if (!$response->ok()) {
+        if (!$response->getStatusCode() == 200) {
             return redirect()->route('warehouse.disclaimer')->with('status', 'Disclaimer Not Updated, error to update');
         }
 
@@ -257,7 +220,7 @@ class WarehouseController extends Controller
 
     public function store(Request $request)
     {
-        $url = WarehouseController::$url;
+        $controllerAPI = new SensorController();
 
         $available = [
             'porta_descargas',
@@ -270,16 +233,16 @@ class WarehouseController extends Controller
             return redirect()->route('warehouse')->with('status', 'Error To Updated')->with('who', 'all');
         }
 
-        $sensor = Http::get($url . 'sensor/data', [
-            'nome' => $value
-        ])->json();
+        // API Endpoint: api/sensor/data
+        $sensor = $controllerAPI->index(new Request(['nome' => $value]))->getData(true);
 
-        $response = Http::post($url . 'sensor', [
+        // API Endpoint: api/sensor
+        $response = $controllerAPI->store(new Request([
             $value === 'porta_principal' ? 'porta_funcionarios' : $value => 1,
             $sensor['valor'] === 1 ? 'fechar' : 'abrir' => 1
-        ]);
+        ]));
 
-        if (!$response->ok()) {
+        if (!$response->getStatusCode() == 200) {
             return redirect()->route('warehouse')->with('status', 'Error To Updated')->with('who', 'all');
         }
 
@@ -288,15 +251,14 @@ class WarehouseController extends Controller
 
     public function store_sensors(Request $request)
     {
-        $url = WarehouseController::$url;
+        $controllerAPI = new SensorController();
 
         //Clean Sensors
         if ($request->has('sensores')) {
-            $response = Http::post($url . 'cache', [
-                'sensores' => 1,
-            ]);
+            // API Endpoint: api/cache
+            $response = $controllerAPI->updateCache(new Request(['sensores' => 1]));
 
-            if (!$response->ok()) {
+            if (!$response->getStatusCode() == 200) {
                 return redirect()->route('dashboard')->with('cache', 'Error to Clean Cache');
             }
         }
@@ -312,9 +274,9 @@ class WarehouseController extends Controller
             if ($imagens->valor !== 0) {
                 $log = rtrim($imagens->log, '|');
                 $log = explode('|', $log);
-                $log_to_delete = array_slice($log,0, -20);
+                $log_to_delete = array_slice($log, 0, -20);
 
-                $log = array_slice($log,-20);
+                $log = array_slice($log, -20);
 
                 //Delete from storage old pictures
                 foreach ($log_to_delete as $key => $value) {
@@ -325,8 +287,8 @@ class WarehouseController extends Controller
                 // Create log to save and change picture's name
                 foreach ($log as $item) {
                     $values = explode(';', $item);
-                    $picture = $count .".jpg";
-                    $log_to_save .=  $values[0] .";". $picture . "|";
+                    $picture = $count . ".jpg";
+                    $log_to_save .=  $values[0] . ";" . $picture . "|";
                     $count += 1;
 
                     Storage::move($url_delete . $values[1], $url_delete . $picture);
@@ -338,8 +300,7 @@ class WarehouseController extends Controller
                 $imagens->data_hora = null;
                 $imagens->log = $log_to_save;
                 $imagens->save();
-
-            }else{
+            } else {
                 return redirect()->route('dashboard')->with('cache', 'Error to Clean Cache');
             }
         }
@@ -361,9 +322,9 @@ class WarehouseController extends Controller
 
             $log = array_reverse($log);
 
-            foreach (array_slice($log,0, 11) as $item) {
+            foreach (array_slice($log, 0, 11) as $item) {
                 $values = explode(';', $item);
-                $imgs[] = $values[1];
+                $imgs[] = $values[1] ?? null;
             }
 
             $now = $imgs[0];

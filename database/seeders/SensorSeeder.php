@@ -196,7 +196,7 @@ class SensorSeeder extends Seeder
             ],
             [
                 'nome' => 'imagens_armazem',
-                'valor' => 1,
+                'valor' => 0,
             ],
             [
                 'nome' => 'trigger',

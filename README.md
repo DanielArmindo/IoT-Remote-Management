@@ -63,6 +63,7 @@ This project used the following softwares:
 Laravel Folder
 
 ```bash
+# Dont forget to rename .env.example file to .env and configure it
 # Inside the LaravelAPI folder (first time)
 composer install
 php artisan key:generate
@@ -70,6 +71,7 @@ php artisan migrate:fresh
 php artisan db:seed
 php artisan storage:link
 npm install
+npm run build
 
 # When not using Laragon - Run Server
 php artisan serve
@@ -77,14 +79,8 @@ php artisan serve
 
 ## Caution
 
-- Dont forget to create .env file and configure it
-- With the url of web server (laravel application) replace "**server_url**" in the following files:
-	- Laravel Application
-		- **ProfileController** - at the beginning of the class
-		- **WarehouseController** - at the beginning of the class
-	- Cisco Environment
-		- **In all microcontrollers** - at the beginning, in the programming tab
-	- Python Scripts
-		- **In all files** - at the beginning of each script
-
-
+With the url of web server (laravel application) replace "**server_url**" in the following files:
+- Cisco Environment
+	- **In all microcontrollers** - at the beginning, in the programming tab
+- Python Scripts
+	- **In all files** - at the beginning of each script

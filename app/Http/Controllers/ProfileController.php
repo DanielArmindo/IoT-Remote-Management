@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\api\SensorController;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Venda;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    private static $url = 'http://server_url/api/';
-
     public function index(Request $request): View
     {
-        $url = ProfileController::$url;
+        $controllerAPI = new SensorController();
 
         $alarme = '';
         $porta_funcionarios = '';
@@ -26,19 +24,14 @@ class ProfileController extends Controller
         $carrinho = Venda::where('cod_utilizador', Auth::user()->id)->where('estado', 'carrinho')->first();
 
         if ($request->user()->type_user === 'S') {
-            $alarme = Http::get($url . 'estado', [
-                'alarme' => 1
-            ])->json();
+            // API Endpoint: api/estado
+            $alarme = $controllerAPI->estadoSistema(new Request(['alarme' => 1]))->getData(true);
             $alarme = $alarme['alarme'];
 
-            $porta_funcionarios = Http::get($url . 'estado', [
-                'porta_funcionarios' => 1
-            ])->json();
+            $porta_funcionarios = $controllerAPI->estadoSistema(new Request(['porta_funcionarios' => 1]))->getData(true);
             $porta_funcionarios = $porta_funcionarios['estado'];
 
-            $porta_descargas = Http::get($url . 'estado', [
-                'porta_descargas' => 1
-            ])->json();
+            $porta_descargas = $controllerAPI->estadoSistema(new Request(['porta_descargas' => 1]))->getData(true);
             $porta_descargas = $porta_descargas['estado'];
         }
 

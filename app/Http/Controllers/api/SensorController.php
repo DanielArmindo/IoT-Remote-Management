@@ -5,8 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Sensor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 
 class SensorController extends Controller
 {
@@ -214,33 +212,22 @@ class SensorController extends Controller
 
     public function estadoSistema(Request $request)
     {
-        $url = explode('api', $request->url());
-        $url = $url[0] . "api/sensor/data";
         if ($request->filled('alarme')) {
-            return $this->verificarEstadoAlarme($url);
+            return $this->verificarEstadoAlarme();
         } elseif ($request->filled('porta_descargas')) {
-            return $this->verificarEstadoPortaDescargas($url);
+            return $this->verificarEstadoPortaDescargas();
         } elseif ($request->filled('porta_funcionarios')) {
-            return $this->verificarEstadoPortaFuncionarios($url);
+            return $this->verificarEstadoPortaFuncionarios();
         } else {
             return response()->json(['error' => 'Operação inválida'], 400);
         }
     }
 
-    private function verificarEstadoAlarme($url)
+    private function verificarEstadoAlarme()
     {
-        /*
-            curl --location --request GET 'http://tiproject.test/api/estado' \
-            --header 'Content-Type: application/json' \
-            --data '{
-                "alarme":1
-            }'
-        */
-        $temperatura = Http::get($url, [
-            'nome' => "temperatura_armazem"
-        ])->json();
-        $fumo = Http::get($url, ['nome' => "sensorFumo_armazem"])->json();
-        $humidade = Http::get($url, ['nome' => "sensorHumidade_armazem"])->json();
+        $temperatura = self::index(new Request(['nome' => "temperatura_armazem"]))->getData(true);
+        $fumo = self::index(new Request(['nome' => "sensorFumo_armazem"]))->getData(true);
+        $humidade = self::index(new Request(['nome' => "sensorHumidade_armazem"]))->getData(true);
 
         if (intval($temperatura['valor']) > 33 || intval($fumo['valor']) > 34 || intval($humidade['valor']) > 40) {
             return response()->json(['alarme' => 'sim']);
@@ -249,16 +236,9 @@ class SensorController extends Controller
         }
     }
 
-    private function verificarEstadoPortaDescargas($url)
+    private function verificarEstadoPortaDescargas()
     {
-        /*
-            curl --location --request GET 'http://tiproject.test/api/estado' \
-            --header 'Content-Type: application/json' \
-            --data '{
-                "porta_descargas":1
-            }'
-        */
-        $porta_descargas = Http::get($url, ['nome' => "porta_descargas"])->json();
+        $porta_descargas = self::index(new Request(['nome' => "porta_descargas"]))->getData(true);
 
         if (intval($porta_descargas['valor']) == 0) {
             return response()->json(['estado' => 'nao']);
@@ -267,16 +247,9 @@ class SensorController extends Controller
         }
     }
 
-    private function verificarEstadoPortaFuncionarios($url)
+    private function verificarEstadoPortaFuncionarios()
     {
-        /*
-            curl --location --request GET 'http://tiproject.test/api/estado' \
-            --header 'Content-Type: application/json' \
-            --data '{
-                "porta_funcionarios":1
-            }'
-        */
-        $porta_funcionarios = Http::get($url, ['nome' => "porta_principal"])->json();
+        $porta_funcionarios = self::index(new Request(['nome' => "porta_principal"]))->getData(true);
 
         if (intval($porta_funcionarios['valor']) == 0) {
             return response()->json(['estado' => 'nao']);
@@ -289,7 +262,7 @@ class SensorController extends Controller
     public function indexCisco(Request $request)
     {
         /*
-            curl --location --request GET 'http://tiproject.test/api/sensor' \
+            curl --location --request GET 'http://server_url/api/sensor' \
             --header 'Content-Type: application/json' \
             --data '{
                 "armazem":1
@@ -332,7 +305,7 @@ class SensorController extends Controller
     public function getChart(Request $request)
     {
         /*
-            curl --location --request GET 'http://tiproject.test/api/chart' \
+            curl --location --request GET 'http://server_url/api/chart' \
             --header 'Content-Type: application/json' \
             --data '{
                 "sensor":"sensorLuz_armazem"
